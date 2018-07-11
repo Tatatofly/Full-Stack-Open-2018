@@ -4,11 +4,14 @@ import ReactDOM from 'react-dom'
 
 const Button = ({ handleClick, text}) => ( <button onClick={handleClick}>{text}</button>)
 
+const Title = ({text}) => (<div><h2>{text}</h2></div>)
+
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selected: 0
+      selected: 0,
+      mostVotes: 0
     }
   }
 
@@ -20,11 +23,28 @@ class App extends React.Component {
         }
     }
 
+    voteAnecdote = (anec, most) => {
+        return () => {
+            anecPoints[anec] += 1
+            console.log("Voted: ", anec)
+            if(anecPoints[most] < anecPoints[anec] && anec !== most){
+                this.setState({mostVotes: anec})
+            } else {
+                this.setState({selected: anec})
+            }
+        }
+    }
+
   render() {
     return (
       <div>
         <p>{this.props.anecdotes[this.state.selected]}</p>
+        <p>has {anecPoints[this.state.selected]} votes</p>
+        <Button handleClick={this.voteAnecdote(this.state.selected, this.state.mostVotes)} text={"Vote"} />
         <Button handleClick={this.getRandomAnecdote()} text={"Next Anecdote"} />
+        <Title text={otsikko} />
+        <p>{this.props.anecdotes[this.state.mostVotes]}</p>
+        <p>has {anecPoints[this.state.mostVotes]} votes</p>
       </div>
     )
   }
@@ -38,6 +58,10 @@ const anecdotes = [
   'Premature optimization is the root of all evil.',
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
+
+const anecPoints = [0, 0, 0, 0, 0, 0]
+
+const otsikko = "Anecdote with most votes:"
 
 ReactDOM.render(
   <App anecdotes={anecdotes} />,
