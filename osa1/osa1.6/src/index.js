@@ -26,15 +26,21 @@ const Button = ({ handleClick, text}) => ( <button onClick={handleClick}>{text}<
 const Statistic = ({ text, counter}) => ( <div><p>{text} {counter}</p></div>)
 
 const Statistics = ({hyva, neutraali, huono, keskiarvo, prosentti}) => {
-    return (
-        <div>
-            <Statistic text={painikkeet[0].text} counter={hyva} />
-            <Statistic text={painikkeet[1].text} counter={neutraali} />
-            <Statistic text={painikkeet[2].text} counter={huono} />
-            <Statistic text={"keskiarvo"} counter={keskiarvo} />
-            <Statistic text={"positiivisia"} counter={prosentti} />
-        </div>
-    )
+    if(palautteet.length === 0){
+        return (
+             <div><p>Ei yhtään palautetta annettu</p></div>
+        )
+    } else {
+        return (
+            <div>
+                <Statistic text={painikkeet[0].text} counter={hyva} />
+                <Statistic text={painikkeet[1].text} counter={neutraali} />
+                <Statistic text={painikkeet[2].text} counter={huono} />
+                <Statistic text={"keskiarvo"} counter={keskiarvo} />
+                <Statistic text={"positiivisia"} counter={prosentti} />
+            </div>
+        )
+    }
 }
 
 class App extends React.Component {
