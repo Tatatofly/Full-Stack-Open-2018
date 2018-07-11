@@ -23,7 +23,7 @@ const Title = ({text}) => (<div><h1>{text}</h1></div>)
 
 const Button = ({ handleClick, text}) => ( <button onClick={handleClick}>{text}</button>)
 
-const Statistic = ({ text, counter}) => ( <div><p>{text} {counter}</p></div>)
+const Statistic = ({ text, counter}) => ( <tr><td>{text}</td><td>{counter}</td></tr>)
 
 const Statistics = ({hyva, neutraali, huono, keskiarvo, prosentti}) => {
     if(palautteet.length === 0){
@@ -32,13 +32,15 @@ const Statistics = ({hyva, neutraali, huono, keskiarvo, prosentti}) => {
         )
     } else {
         return (
-            <div>
-                <Statistic text={painikkeet[0].text} counter={hyva} />
-                <Statistic text={painikkeet[1].text} counter={neutraali} />
-                <Statistic text={painikkeet[2].text} counter={huono} />
-                <Statistic text={"keskiarvo"} counter={keskiarvo} />
-                <Statistic text={"positiivisia"} counter={prosentti} />
-            </div>
+            <table>
+                <tbody>
+                    <Statistic text={painikkeet[0].text} counter={hyva} />
+                    <Statistic text={painikkeet[1].text} counter={neutraali} />
+                    <Statistic text={painikkeet[2].text} counter={huono} />
+                    <Statistic text={"keskiarvo"} counter={keskiarvo} />
+                    <Statistic text={"positiivisia"} counter={prosentti} />
+                </tbody>
+            </table>
         )
     }
 }
