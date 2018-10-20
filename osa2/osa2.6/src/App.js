@@ -19,13 +19,28 @@ class App extends React.Component {
 
   addName = (event) => {
     event.preventDefault()
-    const persoName = { name: this.state.newName }
-    const names = this.state.persons.concat(persoName)
-
-    this.setState({
-      persons: names,
-      newName: ''
+    const nameCheck = this.state.newName
+    const findRes = this.state.persons.find(function(pers){
+      if(pers.name === nameCheck){
+        return true
+      } else {
+        return false
+      }
     })
+    if(!findRes) {
+      const persoName = { name: this.state.newName }
+      const names = this.state.persons.concat(persoName)
+  
+      this.setState({
+        persons: names,
+        newName: ''
+      })
+    } else {
+      this.setState({
+        newName: ''
+      })
+      alert('duplicate content!')
+    }
   }
 
   render() {
