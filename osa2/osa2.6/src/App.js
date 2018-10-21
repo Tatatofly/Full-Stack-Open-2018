@@ -1,5 +1,6 @@
 import React from 'react';
 import Person from './components/Person'
+import Formula from './components/Formula'
 
 class App extends React.Component {
   constructor(props) {
@@ -68,17 +69,7 @@ class App extends React.Component {
             rajaa näytettäviä <input value={this.state.filter} onChange={this.handleFilterChange}/>
           </div>
         <h3>Lisää uusi:</h3>
-        <form onSubmit={this.addName}>
-          <div>
-            nimi: <input value={this.state.newName} onChange={this.handleNameChange}/>
-          </div>
-          <div>
-            numero: <input value={this.state.newNumber} onChange={this.handleNumberChange}/>
-          </div>
-          <div>
-            <button type="submit">lisää</button>
-          </div>
-        </form>
+        <Formula persons={this.state.persons} newName={this.state.newName} newNumber={this.state.newNumber} addName={this.addName} handleNameChange={this.handleNameChange} handleNumberChange={this.handleNumberChange}/>
         <h2>Numerot</h2>
         <ul>
           <Person persons={this.state.persons} filter={this.state.filter}/>
