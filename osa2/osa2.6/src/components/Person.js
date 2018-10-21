@@ -1,8 +1,13 @@
 import React from 'react'
 
-const Person = ({ person }) => {
+const Person = ({ persons, filter }) => {
+  const pplToShow = 
+    filter.length === 0 ?
+      persons:
+      persons.filter(persons => persons.name.startsWith(filter))
+
   return (
-    <li>{person.name} {person.number} </li>
+    pplToShow.map(person => <li key={person.name}>{person.name} {person.number} </li>)
   )
 }
 
