@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios'
 import Person from './components/Person'
 import Formula from './components/Formula'
+import personsService from './services/persons'
 
 class App extends React.Component {
   constructor(props) {
@@ -16,9 +17,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log('did mount')
-    axios
-      .get('http://localhost:3001/persons')
+    personsService
+      .getAll()
       .then(response => {
         console.log('promise fulfilled')
         this.setState({ persons: response.data })
@@ -53,8 +53,8 @@ class App extends React.Component {
     if(!findRes) {
       const persoName = { name: this.state.newName, number: this.state.newNumber}
       //const names = this.state.persons.concat(persoName)
-
-      axios.post('http://localhost:3001/persons', persoName)
+      personsService
+      .create(persoName)
       .then(response => {
         console.log(response)
         this.setState({
