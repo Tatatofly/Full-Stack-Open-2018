@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Formula = ({ persons, newName, newNumber, addName, handleNameChange, handleNumberChange}) => {
+const Formula = ({ newName, newNumber, addName, handleNameChange, handleNumberChange}) => {
 
     return (
     <form onSubmit={addName}>
