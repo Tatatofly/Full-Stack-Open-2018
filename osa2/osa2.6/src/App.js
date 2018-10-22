@@ -42,8 +42,10 @@ class App extends React.Component {
   addName = (event) => {
     event.preventDefault()
     const nameCheck = this.state.newName
+    let persId
     const findRes = this.state.persons.find(function(pers){
       if(pers.name === nameCheck){
+        persId = pers.id
         return true
       } else {
         return false
@@ -51,7 +53,6 @@ class App extends React.Component {
     })
     if(!findRes) {
       const persoName = { name: this.state.newName, number: this.state.newNumber}
-      //const names = this.state.persons.concat(persoName)
       personsService
       .create(persoName)
       .then(response => {
@@ -63,18 +64,27 @@ class App extends React.Component {
         })
       })
     } else {
-      this.setState({
-        newName: '',
-        newNumber: ''
-      })
-      alert('duplicate content!')
+      if (window.confirm(`${nameCheck} on jo luettelossa, korvataanko vanha numero uudella?`)) {
+        const person = this.state.persons.find(pers => pers.id === persId)
+        const updatedPerson = { ...person, number: this.state.newNumber }
+        personsService
+        .update(persId, updatedPerson)
+        .then(response => {
+          console.log(response)
+          this.setState({
+            persons: this.state.persons.map(person => person.id !== persId ? person : response.data),
+            newName: '',
+            newNumber: ''
+          })
+        })
+      }
     }
   }
 
   deleteName = (id) => {
     console.log('Try Deleting...')
     const delPerson = this.state.persons.find(pers => pers.id === id)
-    if (window.confirm(`Poistetaanko henkilö ${delPerson.name}`)) { // window.confirm(`Poistetaanko henkilö ${delPerson.name}`)
+    if (window.confirm(`Poistetaanko henkilö ${delPerson.name}?`)) {
       console.log('Deleting...')
       personsService
       .destroy(id)
