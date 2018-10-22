@@ -52,12 +52,16 @@ class App extends React.Component {
     })
     if(!findRes) {
       const persoName = { name: this.state.newName, number: this.state.newNumber}
-      const names = this.state.persons.concat(persoName)
-  
-      this.setState({
-        persons: names,
-        newName: '',
-        newNumber: ''
+      //const names = this.state.persons.concat(persoName)
+
+      axios.post('http://localhost:3001/persons', persoName)
+      .then(response => {
+        console.log(response)
+        this.setState({
+          persons: this.state.persons.concat(response.data),
+          newName: '',
+          newNumber: ''
+        })
       })
     } else {
       this.setState({
