@@ -1,6 +1,7 @@
 import React from 'react';
 import Person from './components/Person'
 import Formula from './components/Formula'
+import Notification from './components/Notification'
 import personsService from './services/persons'
 
 class App extends React.Component {
@@ -11,7 +12,8 @@ class App extends React.Component {
       ],
       newName: '',
       newNumber: '',
-      filter: ''
+      filter: '',
+      message: null
     }
   }
 
@@ -60,8 +62,12 @@ class App extends React.Component {
         this.setState({
           persons: this.state.persons.concat(response.data),
           newName: '',
-          newNumber: ''
+          newNumber: '',
+          message: `Lisättiin ${nameCheck}`
         })
+        setTimeout(() => {
+          this.setState({message: null})
+        }, 3000)
       })
     } else {
       if (window.confirm(`${nameCheck} on jo luettelossa, korvataanko vanha numero uudella?`)) {
@@ -74,8 +80,12 @@ class App extends React.Component {
           this.setState({
             persons: this.state.persons.map(person => person.id !== persId ? person : response.data),
             newName: '',
-            newNumber: ''
+            newNumber: '',
+            message: `Päivitettiin ${nameCheck}`
           })
+          setTimeout(() => {
+            this.setState({message: null})
+          }, 3000)
         })
       }
     }
@@ -93,8 +103,12 @@ class App extends React.Component {
         this.setState({
           persons: this.state.persons.filter(pers => pers.id !== id),
           newName: '',
-          newNumber: ''
+          newNumber: '',
+          message: `Poistettiin ${delPerson.name}`
         })
+        setTimeout(() => {
+          this.setState({message: null})
+        }, 3000)
       })
     }
   }
@@ -104,6 +118,7 @@ class App extends React.Component {
       <div>
         <h2>Puhelinluettelo</h2>
         <div>
+            <Notification message={this.state.message}/>
             rajaa näytettäviä <input value={this.state.filter} onChange={this.handleFilterChange}/>
           </div>
         <h3>Lisää uusi:</h3>
