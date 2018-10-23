@@ -83,13 +83,19 @@ class App extends React.Component {
             newNumber: '',
             message: `Päivitettiin ${nameCheck}`
           })
+        })
+        .catch(error => {
+          this.setState({
+            persons: this.state.persons.filter(pers => pers.id !== persId),
+            message: `Henkilö '${nameCheck}' on jo valitettavasti poistettu palvelimelta. Paina "lisää" uudestaan jos haluat lisätä henkilön palvelimelle.`
+          })
+        })
           setTimeout(() => {
             this.setState({message: null})
           }, 3000)
-        })
+        }
       }
     }
-  }
 
   deleteName = (id) => {
     console.log('Try Deleting...')
