@@ -28,6 +28,10 @@ class App extends React.Component {
     this.setState({ filter: event.target.value})
   }
 
+  clickHandler = (event) => {
+    this.setState({ filter: event.target.id})
+  }
+
 
   render() {
     return (
@@ -36,7 +40,7 @@ class App extends React.Component {
           find countries: <input value={this.state.filter} onChange={this.handleFilterChange}/>
         </div>
         <div>
-          <p><Country countries={this.state.countries} filter={this.state.filter}/></p>
+          <Country countries={this.state.countries} filter={this.state.filter} clickHandler={this.clickHandler}/>
         </div>
       </div>
     )
