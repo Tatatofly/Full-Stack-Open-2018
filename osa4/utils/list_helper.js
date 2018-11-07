@@ -29,8 +29,40 @@ const favoriteBlog  = (blogs) => {
   }
 }
 
+const mostBlogs  = (blogs) => {
+  const authors = blogs.map((blog) => {
+    return blog.author
+  })
+  if(authors.length > 0) {
+    var freqList = {}
+    var mostFreq = authors[0]
+    var freqCount = 1
+    for(var i = 0; i < authors.length; i++) {
+      var x = authors[i]
+      if(!freqList[x]) {
+        freqList[x] = 1
+      } else {
+        freqList[x]++
+      }
+
+      if(freqCount < freqList[x]) {
+        mostFreq = x
+        freqCount = freqList[x]
+      }
+    }
+    const theResult = {
+      author: mostFreq,
+      blogs: freqCount
+    }
+    return theResult
+  } else {
+    return {}
+  }
+}
+
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
