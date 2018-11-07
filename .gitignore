@@ -1,1 +1,3 @@
 /harjoitukset/*
+node_modules/
+.env
