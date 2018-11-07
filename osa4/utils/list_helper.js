@@ -12,7 +12,7 @@ const totalLikes = (blogs) => {
   return likes.length === 0 ? 0 : likes.reduce(reducer, 0)
 }
 
-const favoriteBlog  = (blogs) => {
+const favoriteBlog = (blogs) => {
   const likes = blogs.map((blog) => {
     return blog.likes
   })
@@ -29,7 +29,7 @@ const favoriteBlog  = (blogs) => {
   }
 }
 
-const mostBlogs  = (blogs) => {
+const mostBlogs = (blogs) => {
   const authors = blogs.map((blog) => {
     return blog.author
   })
@@ -60,9 +60,38 @@ const mostBlogs  = (blogs) => {
   }
 }
 
+const mostLikes = (blogs) => {
+  if(blogs.length > 0) {
+    var likeList = {}
+    var mostLikes = blogs[0].author
+    var likeCount = blogs[0].likes
+    for(var i = 0; i < blogs.length; i++) {
+      var x = blogs[i].author
+      if(!likeList[x]) {
+        likeList[x] = blogs[i].likes
+      } else {
+        likeList[x] = likeList[x] + blogs[i].likes
+      }
+
+      if(likeCount < likeList[x]) {
+        mostLikes = x
+        likeCount = likeList[x]
+      }
+    }
+    const theResult = {
+      author: mostLikes,
+      likes: likeCount
+    }
+    return theResult
+  } else {
+    return {}
+  }
+}
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
