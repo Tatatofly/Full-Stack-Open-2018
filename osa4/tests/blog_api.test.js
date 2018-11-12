@@ -118,6 +118,28 @@ test('a valid blog without value for likes can be added', async () => {
   expect(newBlogLikes).toBe(0)
 })
 
+test('a blog without title or url will be denied', async () => {
+  const newBlog = {
+    title: 'Little Nicky',
+    author: 'Adam Sandler'
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+  const response = await api
+    .get('/api/blogs')
+
+  function doesItExist(blog) {
+    return blog.title === newBlog.title && blog.author === newBlog.author
+  }
+  const newBlogLikes = (response.body.find(doesItExist))
+  expect(response.body.length).toBe(initialBlogs.length + 2)
+  expect(newBlogLikes).toNotExist
+})
+
 afterAll(() => {
   server.close()
 })
