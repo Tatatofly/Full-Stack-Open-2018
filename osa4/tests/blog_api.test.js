@@ -132,12 +132,10 @@ test('a blog without title or url will be denied', async () => {
   const response = await api
     .get('/api/blogs')
 
-  function doesItExist(blog) {
-    return blog.title === newBlog.title && blog.author === newBlog.author
-  }
-  const newBlogLikes = (response.body.find(doesItExist))
+  const contents = response.body.map(r => r.title)
+
   expect(response.body.length).toBe(initialBlogs.length + 2)
-  expect(newBlogLikes).toNotExist
+  expect(contents).not.toContain('Little Nicky')
 })
 
 afterAll(() => {
