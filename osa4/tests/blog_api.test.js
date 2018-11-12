@@ -76,13 +76,13 @@ test('a valid blog can be added', async () => {
     title: 'Happy Gilmore',
     author: 'Adam Sandler',
     url: 'http://adamsandlerfan92.tripod.com',
-    likes: 0,
+    likes: 1,
   }
 
   await api
     .post('/api/blogs')
     .send(newBlog)
-    .expect(201)
+    .expect(200)
     .expect('Content-Type', /application\/json/)
 
   const response = await api
@@ -92,6 +92,30 @@ test('a valid blog can be added', async () => {
 
   expect(response.body.length).toBe(initialBlogs.length + 1)
   expect(contents).toContain('Happy Gilmore')
+})
+
+test('a valid blog without value for likes can be added', async () => {
+  const newBlog = {
+    title: 'Billy Madison',
+    author: 'Adam Sandler',
+    url: 'http://adamsandlerfan92.tripod.com'
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api
+    .get('/api/blogs')
+
+  function isNewBlog(blog) {
+    return blog.title === newBlog.title && blog.author === newBlog.author && blog.url === newBlog.url
+  }
+
+  const newBlogLikes = (response.body.find(isNewBlog)).likes
+  expect(newBlogLikes).toBe(0)
 })
 
 afterAll(() => {
