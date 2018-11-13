@@ -28,7 +28,7 @@ describe('when there is initially some blog saved', async () => {
     })
   })
 
-  test('individual blogs are returned as json by GET /api/notes/:id', async () => {
+  test('individual blogs are returned as json by GET /api/blogs/:id', async () => {
     const blogsInDatabase = await blogsInDb()
     const aBlog = blogsInDatabase[0]
 
