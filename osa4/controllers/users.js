@@ -6,6 +6,17 @@ usersRouter.post('/', async (request, response) => {
   try {
     const body = request.body
 
+    const users = await User.find({})
+    const usernames = users.map(x => x.username)
+
+    if(usernames.includes(body.username)) {
+      return response.status(400).json({ error: 'username is not unique' })
+    }
+
+    if(body.password.length < 3) {
+      return response.status(400).json({ error: 'password is too short' })
+    }
+
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
@@ -21,7 +32,7 @@ usersRouter.post('/', async (request, response) => {
     response.json(savedUser)
   } catch (exception) {
     console.log(exception)
-    response.status(500).json({ error: 'something went bananas :think:' })
+    response.status(500).json({ error: 'Something went bananas :think:' })
   }
 })
 
