@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/blogs
+content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlcjEiLCJpZCI6IjViZWJlNDg4ZjgwMmIxMDZjNDU2MWIyNCIsImlhdCI6MTU0MjIxMTQ0OX0.8jn1qjhc1m0VDreeMJ4O7Sp8fLA-KN9KZra5bzBDvEE
+
+{
+  "title": "Test Blog 9001 Logged", 
+  "author": "Mc Tester",
+  "url": "https://example.com", 
+  "likes": 9
+}
