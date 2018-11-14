@@ -5,10 +5,10 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 const { initialBlogs, nonExistingId, blogsInDb, usersInDb } = require('./test_helper')
 
-describe.only('when there is initially one user at db', async () => {
+describe('when there is initially one user at db', async () => {
   beforeAll(async () => {
     await User.remove({})
-    const user = new User({ username: 'root', name: 'GNU mies', password: 'sekret' })
+    const user = new User({ username: 'root', name: 'GNU mies', passwordHash: 'sekret', adult: true })
     await user.save()
   })
 
@@ -120,6 +120,8 @@ describe('when there is initially some blog saved', async () => {
     const response = await api
       .get(`/api/blogs/${validNonexistingId}`)
       .expect(404)
+
+    expect(response.status).toEqual(404)
   })
 
   test('400 is returned by GET /api/blogs/:id with invalid id', async () => {
@@ -128,18 +130,23 @@ describe('when there is initially some blog saved', async () => {
     const response = await api
       .get(`/api/blogs/${invalidId}`)
       .expect(400)
+
+    expect(response.status).toEqual(400)
   })
 
   describe('addition of a new blog', async () => {
 
     test('POST /api/blogs succeeds with valid data', async () => {
       const blogsAtStart = await blogsInDb()
+      const firstUsers = await usersInDb()
+      const theFirstUser = firstUsers[0]._id === undefined ? 0 : firstUsers[0]._id
 
       const newBlog = {
         title: 'Happy Gilmore',
         author: 'Adam Sandler',
         url: 'http://adamsandlerfan92.tripod.com',
-        likes: 1
+        likes: 1,
+        userId: theFirstUser
       }
 
       await api
