@@ -2,6 +2,7 @@ import React from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
 
 class App extends React.Component {
   constructor(props) {
@@ -13,7 +14,9 @@ class App extends React.Component {
       newUrl: '',
       username: '',
       password: '',
-      user: null
+      user: null,
+      error: null,
+      daijoubu: 1
     }
   }
 
@@ -44,9 +47,10 @@ class App extends React.Component {
     } catch(exception) {
       this.setState({
         error: 'Username or password is incorrect!',
+        daijoubu: 0
       })
       setTimeout(() => {
-        this.setState({ error: null })
+        this.setState({ error: null , daijoubu: 1})
       }, 5000)
     }
   }
@@ -71,14 +75,16 @@ class App extends React.Component {
   newBlog = async (event) => {
     event.preventDefault()
     try{
-
-      const blog = await blogService.create({
+      await blogService.create({
         title: this.state.newTitle,
         author: this.state.newAuthor,
         url: this.state.newUrl
       })
 
-      this.setState({ newTitle: '', newAuthor: '', newUrl: ''})
+      this.setState({ newTitle: '', newAuthor: '', newUrl: '', error: `a new blog '${this.state.newTitle}' by ${this.state.newAuthor} added`})
+      setTimeout(() => {
+        this.setState({error: null, daijoubu: 1})
+      }, 3000)
     } catch(exception) {
       this.setState({
         error: 'Something went wrong..',
@@ -159,6 +165,7 @@ class App extends React.Component {
 
     return (
       <div>
+        <Notification message={this.state.error} status={this.state.daijoubu}/>
         {this.state.user === null && loginForm()}
         {this.state.user !== null && blogList()}
       </div>
