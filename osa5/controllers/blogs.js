@@ -57,10 +57,10 @@ blogRouter.delete('/:id', async (request, response) => {
       return response.status(401).json({ error: 'token missing or invalid' })
     }
     
-    console.log(blog.user, decodedToken.id)
-
-    if (decodedToken.id.toString() !== blog.user.toString()) {
-      return response.status(400).json({ error: 'only creator can delete a blog' })
+    if(blog.user){
+      if (decodedToken.id.toString() !== blog.user.toString()) {
+        return response.status(400).json({ error: 'only creator can delete a blog' })
+      }
     }
 
     if (blog) {
