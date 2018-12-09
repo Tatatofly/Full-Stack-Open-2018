@@ -34,7 +34,7 @@ class App extends React.Component {
       this.setState({user})
       blogService.setToken(user.token)
     }
-  } 
+  }
 
   login = async (event) => {
     event.preventDefault()
@@ -114,6 +114,10 @@ class App extends React.Component {
       )
     }
 
+  const sortedBlogs = this.state.blogs.sort(function (x, y) {
+      return y.likes - x.likes
+    })
+
   const blogList = () => (
     <div>
       <h2>blogs</h2>
@@ -125,7 +129,7 @@ class App extends React.Component {
                 newUrl={this.state.newUrl}
                 handleBlogFieldChange={this.handleBlogFieldChange}
                 /><br />
-      {this.state.blogs.map(blog => 
+      {sortedBlogs.map(blog => 
         <Blog key={blog._id} blog={blog} user={this.state.user}/>
       )}
     </div>
