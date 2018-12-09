@@ -3,6 +3,8 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
+import Togglable from './components/Togglable'
 
 class App extends React.Component {
   constructor(props) {
@@ -97,32 +99,20 @@ class App extends React.Component {
 
 
   render() {
-    const loginForm = () => (
-      <div>
-        <h2>Log in to application</h2>
-            <form onSubmit={this.login}>
-            <div>
-              Username: &nbsp;
-              <input
-                type="text"
-                name="username"
-                value={this.state.username}
-                onChange={this.handleLoginFieldChange}
-              />
-            </div>
-            <div>
-              Password: &nbsp;
-              <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={this.handleLoginFieldChange}
-              />
-            </div>
-            <button type="submit">kirjaudu</button>
-          </form>
-      </div>
-  )
+    const loginForm = () => {
+      return (
+        <div>
+          <Togglable buttonLabel="Log in">
+            <LoginForm
+              username={this.state.username}
+              password={this.state.password}
+              handleLoginFieldChange={this.handleLoginFieldChange}
+              login={this.login}
+              /><br />
+            </Togglable>
+        </div>
+      )
+    }
 
   const blogList = () => (
     <div>
