@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
+import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 
 class App extends React.Component {
@@ -118,35 +119,13 @@ class App extends React.Component {
     <div>
       <h2>blogs</h2>
       <p>{this.state.user.name} logged in <button onClick={this.handleLogout}>logout</button></p>
-      <h3>Create new</h3>
-      <form onSubmit={this.newBlog}>
-        <div>
-          Title: &nbsp;
-          <input
-                type="text"
-                name="newTitle"
-                value={this.state.newTitle}
-                onChange={this.handleBlogFieldChange}
-              /> <br />
-
-          Author: &nbsp;
-          <input
-                type="text"
-                name="newAuthor"
-                value={this.state.newAuthor}
-                onChange={this.handleBlogFieldChange}
-              /> <br />
-
-          URL: &nbsp;
-          <input
-                type="text"
-                name="newUrl"
-                value={this.state.newUrl}
-                onChange={this.handleBlogFieldChange}
-              /> <br />
-        </div>
-        <button type="submit">Create</button>
-      </form><br />
+        <BlogForm
+                newBlog={this.newBlog}
+                newTitle={this.state.newTitle}
+                newAuthor={this.state.newAuthor}
+                newUrl={this.state.newUrl}
+                handleBlogFieldChange={this.handleBlogFieldChange}
+                /><br />
       {this.state.blogs.map(blog => 
         <Blog key={blog._id} blog={blog}/>
       )}
