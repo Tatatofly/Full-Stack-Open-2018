@@ -1,0 +1,11 @@
+PUT http://localhost:3003/api/blogs/5c0d16d4180e112c249590e7
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlciIsImlkIjoiNWMwN2UwYzE5ZjI1NDQyNWM0MDI2NWJmIiwiaWF0IjoxNTQ0MzY1Nzc4fQ.9hcRqgJljCV5ELb7IgqHAavw2fhV_imZg41nIx6K7wM
+content-type: application/json
+
+{
+    "user": "5c07e0c19f254425c40265bf",
+    "title": "How to masturbate without using hands",
+    "author": "Jack Black",
+    "url": "www.fuckyou.fi",
+    "likes": 5
+}

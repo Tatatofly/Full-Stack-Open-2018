@@ -1,16 +1,38 @@
 import React from 'react'
+import blogService from '../services/blogs'
 
 class Blog extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      visible: false
+      visible: false,
+      refresh: true
     }
   }
 
 
   toggleVisibility = () => {
     this.setState({visible: !this.state.visible})
+  }
+
+  addLike = async () => {
+    const changedBlog = { 
+      user: this.props.blog.user._id,
+      title: this.props.blog.title,
+      author: this.props.blog.author,
+      url: this.props.blog.url,
+      likes: this.props.blog.likes + 1
+    }
+    blogService
+      .update(this.props.blog._id, changedBlog)
+      .then(response => {
+        this.props.blog.likes = changedBlog.likes
+        this.setState({ refresh: !this.state.refresh})
+      })
+      .catch(error => {
+        console.log("Error: ")
+        console.log(error)
+      })
   }
 
   render() {
@@ -31,7 +53,7 @@ class Blog extends React.Component {
       <div style={showWhenVisible}>
         <a href={this.props.blog.url} target="blank">{this.props.blog.url}</a><br />
         {this.props.blog.likes} likes &nbsp; 
-        <button>Like</button><br />
+        <button onClick={this.addLike}>Like</button><br />
         added by {this.props.blog.user.name ? this.props.blog.user.name : "blank"}
       </div>
     </div>  

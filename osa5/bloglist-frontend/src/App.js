@@ -98,7 +98,6 @@ class App extends React.Component {
     }
   }
 
-
   render() {
     const loginForm = () => {
       return (
@@ -127,7 +126,7 @@ class App extends React.Component {
                 handleBlogFieldChange={this.handleBlogFieldChange}
                 /><br />
       {this.state.blogs.map(blog => 
-        <Blog key={blog._id} blog={blog}/>
+        <Blog key={blog._id} blog={blog} user={this.state.user}/>
       )}
     </div>
   )
