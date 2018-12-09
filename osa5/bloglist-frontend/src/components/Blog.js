@@ -75,6 +75,12 @@ class Blog extends React.Component {
       username = this.props.blog.user.name
     }
 
+    const deleteButton = () => {
+      return (
+        <button onClick={this.deleteBlog}>Delete</button>
+      )
+    }
+
     return (
       <div style={blogStyle}>
       <strong onClick={this.toggleVisibility}>{this.props.blog.title}</strong> {this.props.blog.author} <br />
@@ -82,8 +88,9 @@ class Blog extends React.Component {
         <a href={this.props.blog.url} target="blank">{this.props.blog.url}</a><br />
         {this.props.blog.likes} likes &nbsp; 
         <button onClick={this.addLike}>Like</button><br />
-        added by {username} <br /><br />
-        <button onClick={this.deleteBlog}>Delete</button>
+        added by {username}<br />
+        {!this.props.blog.user || this.props.blog.user._id === this.props.user.id && deleteButton()}
+        {!this.props.blog.user && deleteButton()}
       </div>
     </div>  
     )
