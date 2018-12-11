@@ -26,9 +26,13 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'LIKE':
       const id = action.data.id
-      const anecToChange = state.find(a => a.id == id)
+      const anecToChange = state.find(a => a.id === id)
       const changedAnec = { ...anecToChange, votes: anecToChange.votes + 1 }
-      return state.map(anecdote => anecdote.id !== id ? anecdote : changedAnec)
+      const unSorted = state.map(anecdote => anecdote.id !== id ? anecdote : changedAnec)
+      const sortedAnec = unSorted.sort(function (x, y) {
+        return y.votes - x.votes
+      })
+      return sortedAnec
     default:
       return state
   }
