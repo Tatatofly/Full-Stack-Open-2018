@@ -3,6 +3,21 @@ import React from 'react';
 
 class App extends React.Component {
 
+  addAnecdote = (event) => {
+    event.preventDefault()
+    const generateId = () => Number((Math.random() * 1000000).toFixed(0))
+    const content = event.target.anecdote.value
+    this.props.store.dispatch({
+      type: 'NEW',
+      data: {
+        content: content,
+        id: generateId(),
+        votes: 0
+      }
+    })
+    event.target.anecdote.value = ''
+  }
+
   addLike = (id) => () => {
     this.props.store.dispatch({
       type: 'LIKE',
@@ -27,9 +42,9 @@ class App extends React.Component {
           </div>
         )}
         <h2>create new</h2>
-        <form>
-          <div><input /></div>
-          <button>create</button> 
+        <form onSubmit={this.addAnecdote}>
+          <div><input name="anecdote" /></div>
+          <button type="submit">create</button> 
         </form>
       </div>
     )

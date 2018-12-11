@@ -33,6 +33,8 @@ const reducer = (state = initialState, action) => {
         return y.votes - x.votes
       })
       return sortedAnec
+    case 'NEW':
+      return state.concat(action.data)
     default:
       return state
   }
