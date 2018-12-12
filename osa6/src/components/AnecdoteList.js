@@ -27,8 +27,13 @@ class AnecdoteList extends React.Component {
     }, 5000)
   }
 
+  filteredAnecdotes () {
+    const toBeFiltered = this.context.store.getState().anecdotes
+    return toBeFiltered.filter(toBeFiltered => toBeFiltered.content.toLowerCase().startsWith(this.context.store.getState().filter.toLowerCase()))
+  }
+
   render() {
-    const anecdotes = this.context.store.getState().anecdotes
+    const anecdotes = this.filteredAnecdotes ()
     return (
       <div>
         <h2>Anecdotes</h2>
