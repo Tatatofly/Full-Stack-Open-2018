@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { anecdoteVoting } from './../reducers/anecdoteReducer'
 import { notificationChange } from './../reducers/notificationReducer'
 import { connect } from 'react-redux'
-import anecdoteService from '../services/anecdotes'
 
 class AnecdoteList extends React.Component {
 
@@ -16,10 +15,9 @@ class AnecdoteList extends React.Component {
   }
 
   voteAnecdote = (id) => async () => {
-    this.props.anecdoteVoting(id)
     const updatedAnecdote = { ...this.getAnecdoteById(id), votes: this.getAnecdoteById(id).votes + 1 }
-    const votedAnecdote = await anecdoteService.vote(id, updatedAnecdote)
-    this.props.notificationChange('you voted \'' + votedAnecdote.data.content  + '\'')
+    this.props.anecdoteVoting(id, updatedAnecdote)
+    this.props.notificationChange('you voted \'' + updatedAnecdote.content  + '\'')
     setTimeout(() => {
       this.props.notificationChange('')
     }, 5000)
