@@ -1,4 +1,4 @@
-const getId = () => (100000*Math.random()).toFixed(0)
+
 
 const reducer = (store = [], action) => {
   if (action.type==='VOTE') {
@@ -8,7 +8,7 @@ const reducer = (store = [], action) => {
   }
   if (action.type === 'CREATE') {
 
-    return [...store, { content: action.content, id: getId(), votes:0 }]
+    return [...store, action.content ]
   }
   if (action.type === 'INIT') {
     return action.data
