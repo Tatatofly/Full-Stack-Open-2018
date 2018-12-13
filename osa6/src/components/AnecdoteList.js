@@ -17,10 +17,7 @@ class AnecdoteList extends React.Component {
   voteAnecdote = (id) => async () => {
     const updatedAnecdote = { ...this.getAnecdoteById(id), votes: this.getAnecdoteById(id).votes + 1 }
     this.props.anecdoteVoting(id, updatedAnecdote)
-    this.props.notificationChange('you voted \'' + updatedAnecdote.content  + '\'')
-    setTimeout(() => {
-      this.props.notificationChange('')
-    }, 5000)
+    this.props.notificationChange('you voted \'' + updatedAnecdote.content  + '\'', 5)
   }
 
   filteredAnecdotes () {
