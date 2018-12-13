@@ -1,21 +1,39 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import { ListGroup, ListGroupItem, Grid, Row, Col} from 'react-bootstrap'
+import { ListGroup, ListGroupItem, Grid, Row, Col, FormGroup, FormControl, ControlLabel, Button, Navbar, Nav, NavItem, PageHeader, Well, Badge, Image, Tooltip } from 'react-bootstrap'
 
 const Menu = (data) => (
-  <div style={data.menuStyle}>
-    <Link to='/' style={data.linkStyle}>anecdotes</Link> &nbsp;
-    <Link to='/create' style={data.linkStyle}>create new</Link> &nbsp;
-    <Link to='/about' style={data.linkStyle}>about</Link>
+  <div>
+    <Navbar collapseOnSelect>
+    <Navbar.Header>
+      <Navbar.Brand>
+        <Link to="/">Anecdotez</Link>
+      </Navbar.Brand>
+      <Navbar.Toggle />
+    </Navbar.Header>
+    <Navbar.Collapse>
+      <Nav>
+      <NavItem href="#">
+        <Link to="/">anecdotes</Link>
+      </NavItem>
+      <NavItem href="#">
+        <Link to="/create">create new</Link>
+      </NavItem>
+      <NavItem href="#">
+        <Link to="/about">about</Link>
+      </NavItem>
+      </Nav>
+    </Navbar.Collapse>
+    </Navbar>
   </div>
 )
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
-    <h2>Anecdotes</h2>
+    <h2>Anecdotes <Badge>{anecdotes.length}</Badge></h2>
     <ListGroup>
       {anecdotes.map(anecdote => 
-        <ListGroupItem key={anecdote.id} >
+        <ListGroupItem key={anecdote.id} bsStyle="info">
           <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
         </ListGroupItem>
       )}
@@ -25,10 +43,11 @@ const AnecdoteList = ({ anecdotes }) => (
 
 const Anecdote = ({ anecdote }) => {
   return(
-  <div>
+  <div><Well>
     <p><strong>{anecdote.content}</strong> by: {anecdote.author}</p>
     <p>Has {anecdote.votes} votes</p>
-    <p>More info at: <a href={anecdote.info} target='blank'>{anecdote.info}</a></p><br />
+    <p>More info at: <a href={anecdote.info} target='blank'>{anecdote.info}</a></p>
+    </Well>
   </div>
   )
 }
@@ -48,7 +67,7 @@ const About = () => (
           <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
         </Col>
         <Col xs={12} md={4}>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Edsger_Wybe_Dijkstra.jpg/800px-Edsger_Wybe_Dijkstra.jpg" width={248} height={320} />
+          <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Edsger_Wybe_Dijkstra.jpg/800px-Edsger_Wybe_Dijkstra.jpg" responsive />
         </Col>
       </Row>
     </Grid>
@@ -58,8 +77,10 @@ const About = () => (
 const Footer = () => (
   <div>
     Anecdote app for <a href='https://courses.helsinki.fi/fi/TKT21009/121540749'>Full Stack -sovelluskehitys</a>.
-
-    See <a href='https://github.com/mluukkai/routed-anecdotes'>https://github.com/mluukkai/routed-anecdotes</a> for the source code. 
+    See <a href='https://github.com/mluukkai/routed-anecdotes'>https://github.com/mluukkai/routed-anecdotes</a> for the source code.
+    <Tooltip placement="bottom" className="in">
+    Cool app 👌
+    </Tooltip>
   </div>
 )
 
@@ -94,19 +115,33 @@ class CreateNew extends React.Component {
       <div>
         <h2>create a new anecdote</h2>
         <form onSubmit={this.handleSubmit}>
-          <div>
-            content 
-            <input name='content' value={this.state.content} onChange={this.handleChange} />
-          </div>
-          <div>
-            author
-            <input name='author' value={this.state.author} onChange={this.handleChange} />
-          </div>
-          <div>
-            url for more info
-            <input name='info' value={this.state.info} onChange={this.handleChange} />
-          </div> 
-          <button>create</button>
+          <FormGroup>
+            <ControlLabel>content:</ControlLabel>
+            <FormControl
+            type="text"
+            name="content"
+            value={this.state.content}
+            onChange={this.handleChange}
+
+          /><br />
+            <ControlLabel>author:</ControlLabel>
+            <FormControl
+            type="text"
+            name="author"
+            value={this.state.author}
+            onChange={this.handleChange}
+
+          /><br />
+            <ControlLabel>url for more info:</ControlLabel>
+            <FormControl
+            type="text"
+            name="info"
+            value={this.state.info}
+            onChange={this.handleChange}
+
+          /><br />
+          <Button bsStyle="success" type="submit">create</Button>
+          </FormGroup>
         </form>
       </div>  
     )
@@ -195,7 +230,7 @@ class App extends React.Component {
       <div>
         <Router>
           <div class='container'>
-            <h1>Software anecdotes</h1>
+          <PageHeader>Software anecdotes <small>Full Stack Open</small></PageHeader>
             <div>
               <Menu menuStyle={menuStyle} linkStyle={linkStyle}/>
             </div>
