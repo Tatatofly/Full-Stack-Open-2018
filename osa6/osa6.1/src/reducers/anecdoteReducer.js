@@ -39,6 +39,7 @@ export const anecdoteCreation = (content) => {
 export const anecdoteVoting = (id, newObject) => {
   return async (dispatch) => {
     const votedAnecdote = await anecdoteService.vote(id, newObject)
+    console.log(`HTTP status: ${votedAnecdote.status}`)
     dispatch({
       type: 'VOTE',
       newObject
