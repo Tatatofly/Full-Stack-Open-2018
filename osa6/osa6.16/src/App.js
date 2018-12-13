@@ -155,6 +155,12 @@ class App extends React.Component {
   }
 
   render() {
+    const notificationStyle = {
+      color: 'green',
+      fontSize: 26,
+      margin: 5,
+      fontWeight: 'bold'
+    }
     return (
       <div>
         <Router>
@@ -163,7 +169,7 @@ class App extends React.Component {
             <div>
               <Menu />
             </div>
-            <div>
+            <div style={notificationStyle}>
               {this.state.notification}
             </div>
             <div>
