@@ -212,7 +212,7 @@ class App extends React.Component {
       } else {
         return(
           <div>
-            Loading...
+            Loading ...
           </div>
           )
         }
