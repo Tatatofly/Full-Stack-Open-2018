@@ -132,6 +132,13 @@ class App extends React.Component {
     return userObject
   }
 
+  getBlog = (id) => {
+    const blogObject = this.state.blogs.find(function(blog) {
+        return blog._id === id 
+    })
+    return blogObject
+  }
+
   render() {
     if (this.state.user === null) {
       return (
@@ -218,6 +225,28 @@ class App extends React.Component {
         }
     }
 
+    const SingleBlog = (blog) => {
+      console.log(blog)
+      if(blog.blog){
+        return(
+          <div>
+            <h2>{blog.blog.title}</h2>
+            <p>
+              <a href={blog.blog.url} target="blank">{blog.blog.url}</a><br />
+              {blog.blog.likes} likes <button onClick={this.like(blog.blog._id)}>like</button><br />
+              added by {blog.blog.user.name}
+            </p>
+          </div>
+          )
+      } else {
+        return(
+          <div>
+            Loading ...
+          </div>
+          )
+        }
+    }
+
     return (
       <div>
         <Notification notification={this.state.notification} />
@@ -239,6 +268,9 @@ class App extends React.Component {
             <Route exact path="/users" render={() => <Users />} />
             <Route path="/users/:id" render={({match}) =>
               <SingleUser user={this.getUser(match.params.id)}/>}
+            />
+            <Route exact path="/blogs/:id" render={({match}) =>
+              <SingleBlog blog={this.getBlog(match.params.id)}/>}
             />
           </div>
         </Router>
