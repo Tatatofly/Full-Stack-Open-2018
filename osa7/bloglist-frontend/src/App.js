@@ -124,6 +124,14 @@ class App extends React.Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
+  
+  getUser = (id) => {
+    const userObject = this.state.users.find(function(user) {
+        return user._id === id 
+    })
+    return userObject
+  }
+
   render() {
     if (this.state.user === null) {
       return (
@@ -180,11 +188,35 @@ class App extends React.Component {
         <ul>
           <h4>Name - blogs added</h4>
         {this.state.users.map(user => 
-          <li key={user._id}>{user.name} - {user.blogs.length}</li> 
+          <li key={user._id}>
+          <Link to={`/users/${user._id}`}>{user.name}</Link> - {user.blogs.length}
+          </li> 
         )}
         </ul>
       </div>
     )
+
+    const SingleUser = (user) => {
+      if(user.user){
+        return(
+          <div>
+            <h2>{user.user.name}</h2>
+            <h3>Added blogs</h3>
+            <ul>
+              {user.user.blogs.map(blog => 
+                <li key={blog._id}>{blog.title} by {blog.author}</li> 
+              )}
+            </ul>
+          </div>
+          )
+      } else {
+        return(
+          <div>
+            Loading...
+          </div>
+          )
+        }
+    }
 
     return (
       <div>
@@ -204,7 +236,10 @@ class App extends React.Component {
         <Router>
           <div>
             <Route exact path="/" render={() => <Home />} />
-            <Route path="/users" render={() => <Users />} />
+            <Route exact path="/users" render={() => <Users />} />
+            <Route path="/users/:id" render={({match}) =>
+              <SingleUser user={this.getUser(match.params.id)}/>}
+            />
           </div>
         </Router>
       </div>
