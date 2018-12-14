@@ -226,7 +226,6 @@ class App extends React.Component {
     }
 
     const SingleBlog = (blog) => {
-      console.log(blog)
       if(blog.blog){
         return(
           <div>
@@ -249,6 +248,13 @@ class App extends React.Component {
 
     return (
       <div>
+        <h1>Blog app</h1>
+      <Router>
+        <div>
+        <div>
+          <Link to="/">Home</Link> &nbsp;
+          <Link to="/users">Users</Link>
+        </div><br />
         <Notification notification={this.state.notification} />
 
         {this.state.user.name} logged in <button onClick={this.logout}>logout</button>
@@ -262,7 +268,6 @@ class App extends React.Component {
             handleSubmit={this.addBlog}
           />
         </Togglable>
-        <Router>
           <div>
             <Route exact path="/" render={() => <Home />} />
             <Route exact path="/users" render={() => <Users />} />
@@ -272,6 +277,7 @@ class App extends React.Component {
             <Route exact path="/blogs/:id" render={({match}) =>
               <SingleBlog blog={this.getBlog(match.params.id)}/>}
             />
+          </div>
           </div>
         </Router>
       </div>
