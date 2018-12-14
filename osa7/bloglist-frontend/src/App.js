@@ -4,13 +4,16 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
+import usersService from './services/users'
 import loginService from './services/login'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       blogs: [],
+      users: [],
       user: null,
       username: '',
       password: '', 
@@ -24,6 +27,9 @@ class App extends React.Component {
   componentWillMount() {
     blogService.getAll().then(blogs =>
       this.setState({ blogs })
+    )
+    usersService.getAll().then(users =>
+      this.setState({ users })
     )
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
@@ -153,6 +159,33 @@ class App extends React.Component {
 
     const blogsInOrder = this.state.blogs.sort(byLikes)
 
+    const Home = () => (
+      <div>
+      <h2>blogs</h2>
+        {blogsInOrder.map(blog => 
+          <Blog 
+            key={blog._id} 
+            blog={blog} 
+            like={this.like(blog._id)}
+            remove={this.remove(blog._id)}
+            deletable={blog.user === undefined || blog.user.username === this.state.user.username}
+          />
+        )}
+    </div>
+    )
+
+    const Users = () => (
+      <div> 
+        <h2>Users</h2> 
+        <ul>
+          <h4>Name - blogs added</h4>
+        {this.state.users.map(user => 
+          <li key={user._id}>{user.name} - {user.blogs.length}</li> 
+        )}
+        </ul>
+      </div>
+    )
+
     return (
       <div>
         <Notification notification={this.state.notification} />
@@ -168,17 +201,12 @@ class App extends React.Component {
             handleSubmit={this.addBlog}
           />
         </Togglable>
-
-        <h2>blogs</h2>
-        {blogsInOrder.map(blog => 
-          <Blog 
-            key={blog._id} 
-            blog={blog} 
-            like={this.like(blog._id)}
-            remove={this.remove(blog._id)}
-            deletable={blog.user === undefined || blog.user.username === this.state.user.username}
-          />
-        )}
+        <Router>
+          <div>
+            <Route exact path="/" render={() => <Home />} />
+            <Route path="/users" render={() => <Users />} />
+          </div>
+        </Router>
       </div>
     );
   }
