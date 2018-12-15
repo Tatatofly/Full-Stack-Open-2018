@@ -247,7 +247,7 @@ class App extends React.Component {
     }
 
     return (
-      <div>
+      <div className="container">
         <h1>Blog app</h1>
       <Router>
         <div>
